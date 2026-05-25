@@ -1,0 +1,36 @@
+services:
+  bd:
+    image: mysql
+    networks:
+      - phpalvaro
+    ports:
+      - 3307:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=php
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  ui:
+    image: phpmyadmin
+    networks:
+      - phpalvaro
+    ports:
+      - 8083:80
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - PMA_HOST=bd
+      - PMA_PORT=3306
+
+    depends_on:
+      bd:
+        condition: service_healthy
+networks:
+  phpalvaro:
+    driver: bridge
+volumes:
+  mysqldata:
