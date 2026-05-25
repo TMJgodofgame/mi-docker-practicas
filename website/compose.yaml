@@ -1,0 +1,8 @@
+version: "1.0"
+
+services:
+  hola:
+    ports:
+      - 8080:80
+    build:
+      dockerfile: "Dockerfile"

@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - miweb
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=wordpressmio
+  wordpress-yaml:
+    image: wordpress
+    ports:
+      - 8082:80
+    volumes:
+      - /var/www/html/wp-content
+    networks:
+      - miweb
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=root
+      - WORDPRESS_DB_PASSWORD=
+      - WORDPRESS_DB_NAME=wordpressmio
+      - WORDPRESS_TABLE_PREFIX=wp_
+networks:
+  miweb:
+    driver: bridge
