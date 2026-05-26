@@ -1,0 +1,13 @@
+services:
+  n8n:
+    image: n8nio/n8n:nightly-cbe404d
+    ports:
+      - 5678:5678
+    volumes:
+      - n8n_data:/home/node/.n8n/
+    environment:
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_MAX_AGE=168
+volumes:
+  n8n_data:
+    external: false
