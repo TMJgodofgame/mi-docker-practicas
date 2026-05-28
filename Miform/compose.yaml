@@ -1,0 +1,30 @@
+services:
+  db-web:
+    image: mysql:8.4
+    ports:
+      - 3306:3306
+    networks:
+      - mi-conexion
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=web
+  website:
+    image: php:8.4-apache
+    ports:
+      - 8088:80
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - mi-conexion
+    depends_on:
+      - db-web
+networks:
+  mi-conexion:
+    driver: bridge
+volumes:
+  mysql-data:
+    external: false
