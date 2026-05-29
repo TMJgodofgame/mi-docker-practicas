@@ -1,0 +1,41 @@
+networks:
+  node:
+    driver: bridge
+volumes:
+  nodesql:
+    external:
+      false
+services:
+  server:
+    image: node:lts-alpine
+    ports:
+      - 3000:3000
+    networks:
+      - node
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      dbserver:
+        condition: service_healthy
+
+  dbserver:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - nodesql:/var/lib/mysql
+
+      - ./user.sql:/docker-entrypoint-initdb.d/user.sql:ro
+    networks:
+      - node
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=minode
+      - MYSQL_ROOT_PASSWORD=
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot"]    
+      interval: 5s
+      timeout: 30s
+      retries: 500
+      
