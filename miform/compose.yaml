@@ -2,27 +2,22 @@ services:
   db-web:
     image: mysql:8.4
     ports:
-      - 3307:3306
+      - 3306:3306
     networks:
       - mi-conexion
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./bbddweb.sql:/docker-entrypoint-initdb.d/bbddweb.sql:ro
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_DATABASE=web
   website:
-    image: php:8.4-apache
+    image: nginx:stable-alpine-perl
     ports:
       - 8088:80
     build:
-      context: ..
-      dockerfile: Miform/Dockerfile
-    networks:
-      - mi-conexion
-    depends_on:
-      - db-web
+      dockerfile: Dockerfile
+
 networks:
   mi-conexion:
     driver: bridge

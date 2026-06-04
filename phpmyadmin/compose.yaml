@@ -7,6 +7,8 @@ services:
       - 3307:3306
     volumes:
       - mysqldata:/var/lib/mysql
+    command: 
+      - --lower-case-table-names=1
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=php

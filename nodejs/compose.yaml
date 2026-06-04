@@ -13,8 +13,8 @@ services:
     networks:
       - node
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: nodejs/Dockerfile
     depends_on:
       dbserver:
         condition: service_healthy
@@ -32,7 +32,7 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=minode
-      - MYSQL_ROOT_PASSWORD=
+      
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot"]    
       interval: 5s

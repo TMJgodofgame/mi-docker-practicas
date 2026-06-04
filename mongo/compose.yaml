@@ -1,0 +1,29 @@
+networks:
+  mongo_net:
+    driver: bridge
+volumes:
+  mi-mongo:
+    external: false
+services:
+  ddbb:
+    image: mongo
+    networks:
+      - mongo_net
+    volumes:
+      - mi-mongo:/etc/mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=misecreto
+      - MONGO_INITDB_DATABASE=prueba
+  ui:
+    image: mongo-express:1.0.2-20-alpine3.19
+    networks:
+      - mongo_net
+    ports:
+      - 8086:80
+    
+    environment:
+        ME_CONFIG_MONGODB_URL: mongodb://mongo:misecreto@ddbb:27017/?authSource=admin
+        ME_CONFIG_BASICAUTH: "false"

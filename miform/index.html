@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi formulario</title>
+</head>
+<body>
+    <h1>Bienvenido a mi formulario</h1>
+
+    <form id="personaForm" action="/validar" method="post">
+        <fieldset>
+            <legend>Formulario</legend>
+
+            <h3>Nombre</h3>
+            <input type="text" name="nombre" id="nombre" required>
+
+            <h3>Apellidos</h3>
+            <input type="text" name="apellidos" id="apellidos" required>
+
+            <h3>Altura</h3>
+            <input type="number" name="altura" id="altura" step="any" required>
+
+            <h3>Peso</h3>
+            <input type="number" name="peso" id="peso" step="any" required>
+
+            <button type="submit">registrar</button>
+        </fieldset>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <h2>Personas registradas</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Altura</th>
+                <th>Peso</th>
+            </tr>
+        </thead>
+        <tbody id="personasBody">
+            <tr>
+                <td colspan="5">Cargando registros...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

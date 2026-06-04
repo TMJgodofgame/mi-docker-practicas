@@ -1,0 +1,45 @@
+networks:
+  mi-py:
+    driver: bridge
+
+volumes:
+  pysql:
+    external: false
+
+services:
+  mi-py-server:
+    build: 
+      context: ..
+      dockerfile: python/Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - mi-py
+    environment:
+      DB_HOST: mi-py-sql
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_NAME: pysql
+      DB_PORT: 3306
+    depends_on:
+      mi-py-sql:
+        condition: service_healthy
+
+  mi-py-sql:
+    image: mysql
+    ports:
+      - "3310:3306"
+    volumes:
+      - pysql:/var/lib/mysql
+    networks:
+      - mi-py
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: pysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s

@@ -1,10 +1,12 @@
 DROP DATABASE IF EXISTS minode;
-CREATE DATABASE minode;
+CREATE DATABASE minode CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE minode;
-CREATE TABLE User(
-    'name' VARCHAR(100),
-    l_name VARCHAR(300),
-    tall DECIMAL(3,2),
-    'weight' DECIMAL(5,2),
-    PRIMARY KEY('name', l_name, tall, 'weight')
-)
+
+CREATE TABLE `User` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `l_name` VARCHAR(300) NOT NULL,
+    `tall` DECIMAL(5,2) NOT NULL,
+    `weight` DECIMAL(5,2) NOT NULL,
+    PRIMARY KEY (`id`)
+);
